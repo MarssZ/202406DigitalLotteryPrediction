@@ -18,6 +18,8 @@
     Findnum_consecutive.ipynb       #判断是否为连续号，计算连续号模式下的中奖率
     Findnum_SumNum.ipynb            #判断是否为和值极限情况，计算和值极限情况模式下的中奖率
 
+    llm_normal.ipynb                #大模型回答普通版
+
 ## 维护者
 [@MarssZ](https://github.com/MarssZ)
 
