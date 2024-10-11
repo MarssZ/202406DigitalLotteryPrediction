@@ -1,4 +1,4 @@
-### 计算历史开奖次数 ###
+### 福彩3D/排三 工具类 ###
 
 import pandas as pd
 # 超参数
@@ -60,3 +60,4 @@ def get_lottery_numbers_list(n=None):
 
 # #测试代码
 #print(get_lottery_numbers_list())
+
