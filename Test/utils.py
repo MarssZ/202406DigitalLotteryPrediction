@@ -111,7 +111,7 @@ def check_all_even_numbers(df, column_names):
     result_series = df[column_names].apply(lambda row: row % 2 == 0).all(axis=1)
     return result_series
 
-### 检查指定列的下一期号码是否全部为偶数
+### 预测指定列的号码是否全部为偶数
 def predict_all_even_numbers(df, column_names):
     """
     检查指定列的前一行中的值是否全都是偶数，并返回一个布尔 Series。
@@ -151,7 +151,7 @@ def check_all_odd_numbers(df, column_names):
     result_series = df[column_names].apply(lambda row: row % 2 != 0).all(axis=1)
     return result_series
 
-### 检查指定列的下一期号码是否全部为奇数
+### 预测下一期号码是否全部为奇数
 def predict_all_odd_numbers(df, column_names):
     """
     检查指定列前一行中的值是否全都是奇数，并返回一个布尔 Series。
@@ -169,7 +169,72 @@ def predict_all_odd_numbers(df, column_names):
     # 检查移动后的每一行的指定列中的值是否全都是偶数
     result_series = shifted_df.apply(lambda row: all(x % 2 != 0 for x in row), axis=1)
     
-    # 由于第一行没有前一行，所以其结果为 NaN，我们可以将其填充为 False
+    
     result_series = result_series.fillna(False)
     
+    return result_series
+
+### 检查是否组六
+def check_no_same(df, column_names):
+    def exactly_no_same(row):
+        # 如果行中所有值都不相同，则 unique() 方法返回的数组长度等于行的长度
+        return len(row.unique()) == len(row)    
+
+    result_series = df[column_names].apply(exactly_no_same, axis=1)
+    return result_series
+
+### 预测是否组六
+def predict_no_same(df, column_names):
+    def exactly_no_same(row):
+        # 如果行中所有值都不相同，则 unique() 方法返回的数组长度等于行的长度
+        return len(row.unique()) == len(row)    
+
+    shifted_df = df[column_names].shift(1)  # 将指定列的数据向上移动一行
+    result_series = shifted_df.apply(exactly_no_same, axis=1)
+    result_series = result_series.fillna(False) # 由于第一行没有前一行，所以其结果为 NaN，我们可以将其填充为 False
+    return result_series
+
+### 检查是否组三
+def check_two_same(df, column_names):
+    # 检查每一行中是否有正好两个数字相同
+    def exactly_two_same(row):
+        unique_values = row.unique()
+        if len(unique_values) == 2 and (row.value_counts().max() == 2):
+            return True
+        return False
+
+    result_series = df[column_names].apply(exactly_two_same, axis=1)
+    return result_series
+
+### 预测是否组三
+def predict_two_same(df, column_names):
+    # 检查每一行中是否有正好两个数字相同
+    def exactly_two_same(row):
+        unique_values = row.unique()
+        if len(unique_values) == 2 and (row.value_counts().max() == 2):
+            return True
+        return False
+    shifted_df = df[column_names].shift(1)  # 将指定列的数据向上移动一行
+    result_series = shifted_df.apply(exactly_two_same, axis=1)
+    result_series = result_series.fillna(False) # 由于第一行没有前一行，所以其结果为 NaN，我们可以将其填充为 False
+    return result_series
+
+### 检查是否豹子
+def check_three_same(df, column_names):
+    # 检查每一行中是否有正好两个数字相同
+    def exactly_three_same(row):
+        # 如果行中所有值都相同，则 unique() 方法返回的数组长度为 1
+        return len(row.unique()) == 1
+    result_series = df[column_names].apply(exactly_three_same, axis=1)
+    return result_series
+
+### 预测是否豹子
+def predict_three_same(df, column_names):
+    # 检查每一行中是否有正好两个数字相同
+    def exactly_three_same(row):
+        # 如果行中所有值都相同，则 unique() 方法返回的数组长度为 1
+        return len(row.unique()) == 1
+    shifted_df = df[column_names].shift(1)  # 将指定列的数据向上移动一行
+    result_series = shifted_df.apply(exactly_three_same, axis=1)
+    result_series = result_series.fillna(False) # 由于第一行没有前一行，所以其结果为 NaN，我们可以将其填充为 False
     return result_series
