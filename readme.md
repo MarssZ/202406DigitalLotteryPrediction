@@ -20,6 +20,8 @@
     
     Test/Test_DecisionTree          #使用决策树寻找公式
     Test/Test_RandomForest.ipynb    #使用随机森林寻找公式
+    Test/Utils.py                   #上面用到的工具类
+    Test/Test_RandomForest_random_feature.ipynb     #在随机森林的基础上修改，使其使用了随机特征
 
     Calc_MissingNum.ipynb           #计算遗漏值，即某一开奖号码有多久没有被开出来了。
 
